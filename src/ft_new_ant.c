@@ -1,44 +1,47 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_verify.c                                        :+:      :+:    :+:   */
+/*   ft_new_ant.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmitriuc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/27 13:43:12 by mmitriuc          #+#    #+#             */
-/*   Updated: 2017/02/07 16:55:01 by mmitriuc         ###   ########.fr       */
+/*   Created: 2017/02/07 14:36:22 by mmitriuc          #+#    #+#             */
+/*   Updated: 2017/02/07 16:55:55 by mmitriuc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <unistd.h>
 #include "lem_in.h"
-#include "libft.h"
+#include <unistd.h>
+#include <stdlib.h>
 
-//the function where i would like to verify if way exists
-
-int ft_way(char	*line)
+void 	ft_eliberam_furnica(t_furn *furn)
 {
-	int		i;
-	int		k;
+	t_furn *tmp;
 
-	k = 1;
-	i = -1;
-	if (ft_strlen(line) == 0)
-		return ft_error();
-	while (line[++i])
+	while (furn)
 	{
-		if (ft_isalnum(line[i]) == _success_)
-			;
-		else if (line[i] == '-')
+		tmp = furn;
+		furn = furn->next;
+		free(tmp);
+	}
+}
+
+void 	ft_eliberam_graful(t_graf *graf)
+{
+	t_graf *tmp;
+	t_way  *way;
+
+	while (graf)
+	{
+		while (graf->way)
 		{
-			k++
-
-
-
-
-
-
-
-
-
+			way = graf->way;
+			graf->way = graf->way->next;
+			free(way);
+		}
+		tmp = graf;
+		graf = graf->next;
+		ft_strdel(&tmp->name);
+		free(tmp);
+	}
+}		

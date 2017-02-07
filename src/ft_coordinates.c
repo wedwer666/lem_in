@@ -1,44 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_verify.c                                        :+:      :+:    :+:   */
+/*   ft_coordinates.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmitriuc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/27 13:43:12 by mmitriuc          #+#    #+#             */
-/*   Updated: 2017/02/07 16:55:01 by mmitriuc         ###   ########.fr       */
+/*   Created: 2017/02/06 16:19:27 by mmitriuc          #+#    #+#             */
+/*   Updated: 2017/02/06 16:22:50 by mmitriuc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <unistd.h>
 #include "lem_in.h"
-#include "libft.h"
 
-//the function where i would like to verify if way exists
-
-int ft_way(char	*line)
+void ft_ver_coord(t_room *tmp, char *str, int x, int y)
 {
-	int		i;
-	int		k;
-
-	k = 1;
-	i = -1;
-	if (ft_strlen(line) == 0)
-		return ft_error();
-	while (line[++i])
+	while (tmp)
 	{
-		if (ft_isalnum(line[i]) == _success_)
-			;
-		else if (line[i] == '-')
+		if (x == tmp->x && y == tmp->y)
 		{
-			k++
-
-
-
-
-
-
-
-
-
+			if (ft_strcmp(str, tmp->good))
+				ft_error();
+		}
+		tmp = tmp->next;
+	}
+}

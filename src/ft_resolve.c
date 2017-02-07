@@ -1,44 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_verify.c                                        :+:      :+:    :+:   */
+/*   ft_resolve.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmitriuc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/27 13:43:12 by mmitriuc          #+#    #+#             */
-/*   Updated: 2017/02/07 16:55:01 by mmitriuc         ###   ########.fr       */
+/*   Created: 2017/02/06 17:24:07 by mmitriuc          #+#    #+#             */
+/*   Updated: 2017/02/06 17:30:24 by mmitriuc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include <unistd.h>
+#include <stdlib.h>
 #include "lem_in.h"
-#include "libft.h"
 
-//the function where i would like to verify if way exists
-
-int ft_way(char	*line)
-{
-	int		i;
-	int		k;
-
-	k = 1;
-	i = -1;
-	if (ft_strlen(line) == 0)
-		return ft_error();
-	while (line[++i])
-	{
-		if (ft_isalnum(line[i]) == _success_)
-			;
-		else if (line[i] == '-')
-		{
-			k++
-
-
-
-
-
-
-
-
-
+// check the fastest path
+// check all possible paths
+// check what is better fastest or possible path???
+// delete node if it is not good and will not be used by ants
+// refresh function to display path 
