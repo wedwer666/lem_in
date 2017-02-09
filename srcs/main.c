@@ -6,12 +6,9 @@
 /*   By: pcervac <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 17:47:29 by pcervac           #+#    #+#             */
-/*   Updated: 2017/02/08 21:01:08 by pcervac          ###   ########.fr       */
+/*   Updated: 2017/02/09 11:55:13 by pcervac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include <errno.h>
-#include <string.h>
 
 #include "lem_in.h"
 
