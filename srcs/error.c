@@ -1,29 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strsub.c                                        :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pcervac <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/20 19:03:14 by pcervac           #+#    #+#             */
-/*   Updated: 2016/12/23 17:24:01 by pcervac          ###   ########.fr       */
+/*   Created: 2017/02/12 18:01:22 by pcervac           #+#    #+#             */
+/*   Updated: 2017/02/12 18:52:26 by pcervac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string.h"
+#include "lem_in.h"
 
-char	*ft_strsub(char const *s, unsigned int start, size_t len)
+void	error(t_string msg)
 {
-	size_t	i;
-	char	*str;
-
-	i = 0;
-	str = NULL;
-	if (s != NULL)
-	{
-		if (NULL != (str = ft_strnew(len)))
-			while (s[start] != '\0' && i != len)
-				str[i++] = s[start++];
+	ft_putendl_fd(msg, STDERR_FILENO);
+	exit(EXIT_FAILURE);
 	}
-	return (str);
-}

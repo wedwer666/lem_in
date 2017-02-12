@@ -14,6 +14,7 @@
 # define FT_STDLIB_H
 
 # include <stdlib.h>
+# include <inttypes.h>
 
 # define GET_INT(val)	(*(int*)(val))
 

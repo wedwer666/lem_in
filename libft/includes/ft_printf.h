@@ -56,7 +56,7 @@ typedef struct	s_flag
 	int			bl_fl;
 }				t_flag;
 
-int				ft_printf(const char *restrict format, ...);
+int				ft_printf(const char *format, ...);
 t_flag			getfl(va_list *va, const char **format);
 int				convert(const char **format, va_list *va, t_flag fl);
 

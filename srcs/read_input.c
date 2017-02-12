@@ -6,86 +6,86 @@
 /*   By: pcervac <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 19:05:12 by pcervac           #+#    #+#             */
-/*   Updated: 2017/02/09 13:10:19 by pcervac          ###   ########.fr       */
+/*   Updated: 2017/02/12 19:20:24 by pcervac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-#define READ_ROOMS		0
-#define READ_CHANNELS	1
-
-void	error(t_string msg)
+t_bool	process_diez(t_input *inp, t_string line, const int *phase)
 {
-	ft_putendl_fd(msg, STDERR_FILENO);
-	exit(EXIT_FAILURE);
-}
+	int		i;
 
-int		procces_comment(t_string line, t_status *stat)
-{
-	if (ft_strequ(line, START_SIGN))
-	{
-		*stat = START;
-		return (0);
-	}
-	if (ft_strequ(line, END_SIGN))
-	{
-		*stat = END;
-		return (0);
-	}
-	if ('#' == *line)
-		return (1);
-	return (0);
-}
-
-void	read_room(t_input *inp, t_string line)
-{
-	t_status	stat;
-	t_room		*room;
-	t_string	*dates;
-
-	stat = normal;
-	if (procces_comment(line, &stat))
-		return ;
-	room = (t_room*)ft_memalloc(sizeof(t_room));
-	NULL == room ? error(strerror(errno)) : DO_NONE;
-	NULL == (dates = ft_strsplit(line, ' ')) ? error(INPUT_ER) : DO_NONE;
-	dates[0] == NULL ? error(INPUT_ER) : DO_NONE;
-	room->name = dates[0];
-	dates[1] == NULL ? error(INPUT_ER) : DO_NONE;
-	room->cor.x = ft_atoi(dates[1]);
-	dates[2] == NULL ? error(INPUT_ER) : DO_NONE;
-	room->cor.y = ft_atoi(dates[2]);
-	dates[3] != NULL ? error(INPUT_ER) : DO_NONE;
-	'L' == *room->name ? error(INPUT_ER) : DO_NONE;
-	ft_lstaddb(&inp->rooms, ft_lstnew(room, sizeof(t_room*)));
-	ft_memdel((void**)room);
-}
-
-t_room	*get_room(t_list *rooms, t_string name)
-{
-	t_list	*tmp;
-
-	tmp = rooms;
-	while (tmp != NULL)
-	{
-		if (ft_strequ(((t_room)tmp->content)->name, name))
+	if (*line != '#')
+		return (false);
+	if (*(++line) != '#')
+		return (true);
+	i = -1;
+	line++;
+	while (++i != NR_FLG)
+		if (ft_strequ(inp->flags[i].name, line))
+		{
+			inp->flags[i].act(inp, phase);
 			break ;
-		tmp = tmp->next;
-	}
-	return ((t_room)tmp->content);
+		}
+	return (true);
 }
 
-void	read_link(t_input *inp, t_string line)
+t_bool	read_rooms(t_input *inp, t_string line, int *phase)
 {
-	t_string	*dates;
-	int			pos;
+	t_string	space1;
+	t_string	space2;
 	t_room		*room;
-	t_string	name;
 
-	if (process_comment(line, NULL))
-		return ;
-	room = get_room(inp->rooms, line);
+	room = make_room();
+	if (NULL == (space1 = ft_strchr(line, ' ')))
+	{
+		*phase = READ_LINKS;
+		return (false);
+	}
+	NULL == (space2 = ft_strchr(space1 + 1, ' ')) ? error(INPUT_ER) : DO_NONE;
+	ft_isnbr(space2 + 1) ? room->cor->y = ft_atoi(space2) : error(INPUT_ER);
+	*space2 = '\0';
+	ft_isnbr(space1 + 1) ? room->cor->x = ft_atoi(space1) : error(INPUT_ER);
+	*space1 = '\0';
+	NULL != find_room_by_name(inp->rooms, line) ? error(EROOM_ER) : DO_NONE;
+	NULL != find_room_by_coord(inp->rooms, room->cor) ? error(ECOORD_ER) : NONE;
+	room->name = ft_strdup(line);
+	room->stat = inp->stat;
+	ft_lstadd(&inp->rooms, ft_lstnew(NULL, 0));
+	inp->rooms->content = (void*)room;
+	inp->stat = NORMAL;
+	return (true);
+}
+
+t_bool	read_connections(t_input *inp, t_string line)
+{
+	t_string	delimiter;
+	t_room		*room1;
+	t_room		*room2;
+
+	NULL == (delimiter = ft_strchr(line, '-')) ? error(INPUT_ER) : DO_NONE;
+	*delimiter = '\0';
+	delimiter++;
+	NULL == (room1 = find_room_by_name(inp->rooms, line))
+		? error(NEROOM_ER) : 0;
+	NULL == (room2 = find_room_by_name(inp->rooms, delimiter))
+		? error(NEROOM_ER) : 0;
+	NULL != find_room_by_name(room1->conns, room2->name) ? error(ECONN_ER) : 0;
+	NULL != find_room_by_name(room2->conns, room1->name) ? error(ECONN_ER) : 0;
+	ft_lstadd(&room1->conns, ft_lstnew(NULL, 0));
+	ft_lstadd(&room2->conns, ft_lstnew(NULL, 0));
+	room1->conns->content = (void*)room2;
+	room2->conns->content = (void*)room1;
+	return (true);
+}
+
+t_bool	read_ants(t_input *inp, t_string line, int *phase)
+{
+	!ft_isnbr(line) ? error(INPUT_ER) : DO_NONE;
+	(inp->nr_lems = ft_atoi(line)) < 0 ? error(INPUT_ER) : DO_NONE;
+	*phase = READ_ROOMS;
+	return (true);
 }
 
 void	read_input(t_input *inp)
@@ -94,16 +94,19 @@ void	read_input(t_input *inp)
 	int			ret;
 	int			phase;
 
-	phase = READ_ROOMS;
-	1 != ft_get_next_line(inp->fd, &line) ? error(INPUT_ER) : DO_NONE;
-	!ft_isnbr(line) ? error(INPUT_ER) : DO_NONE;
-	(inp->nr_lems = ft_atoi(line)) <= 0 ? error(INPUT_ER) : DO_NONE;
-	ft_strdel(&line);
-	while (1 == (ret = ft_get_next_line(inp->fd, &line)))
+	phase = READ_ANTS;
+	while (1 == (ret = ft_get_next_line(STDIN_FILENO, &line)))
 	{
-		phase = ft_strchr(line, '-') ? READ_CHANNELS : phase;
-		phase == READ_ROOMS ? read_room(inp, line) : read_link(inp, line);
+		ft_printf("line = %s", line);
+		*line == '\0' ? error(INPUT_ER) : DO_NONE;
+		if (process_diez(inp, line, &phase))
+			NON_ACTION;
+		else if (phase == READ_ANTS && read_ants(inp, line, &phase))
+			NON_ACTION;
+		else if (phase == READ_ROOMS && read_rooms(inp, line, &phase))
+			NON_ACTION;
+		else if (phase == READ_LINKS && read_connections(inp, line))
+			NON_ACTION;
 		ft_strdel(&line);
 	}
-	-1 == ret ? error(INPUT_ER) : DO_NONE;
 }
