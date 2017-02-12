@@ -6,7 +6,7 @@
 /*   By: pcervac <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/12 18:01:22 by pcervac           #+#    #+#             */
-/*   Updated: 2017/02/12 18:52:26 by pcervac          ###   ########.fr       */
+/*   Updated: 2017/02/12 19:26:02 by pcervac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,4 +16,4 @@ void	error(t_string msg)
 {
 	ft_putendl_fd(msg, STDERR_FILENO);
 	exit(EXIT_FAILURE);
-	}
+}
