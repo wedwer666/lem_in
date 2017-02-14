@@ -6,7 +6,7 @@
 /*   By: pcervac <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 17:47:29 by pcervac           #+#    #+#             */
-/*   Updated: 2017/02/13 20:23:22 by pcervac          ###   ########.fr       */
+/*   Updated: 2017/02/14 17:36:44 by pcervac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,24 +26,31 @@ t_input	*make_input(void)
 	tmp->nr_conns = 0;
 	return (tmp);
 }
-/*
-void	show(t_list *elem)
-{
-	t_room	*room;
 
-	room = (t_room*)elem->content;
-	ft_printf("%s %d %d stat: %d\n", room->name, room->cor->x, room->cor->y, room->stat);
+/*
+ * This function must be deleted in final version
+ */
+void	print_input(t_input *inp)
+{
+	ft_printf("nr_lems: %d\nnr_rooms: %d\nnr_legs: %d\n",
+			inp->nr_lems, inp->nr_rooms, inp->nr_conns); 
+	for (int i = 0; i < inp->nr_rooms; i++)
+		ft_printf("%s%c",
+				inp->rooms_tab[i]->name, i != inp->nr_rooms - 1 ? ' ' : '\n');
+	for (int i = 0; i < inp->nr_rooms; i++)
+		for (int j = 0; j < inp->nr_rooms; j++)
+			ft_printf("%-2d %c",
+					inp->ad_matr[i][j], j != inp->nr_rooms - 1 ? ' ' : '\n'); 
 }
-*/
+
 int		main(void)
 {
 	t_input		*inp;
 
 	inp = make_input();
 	read_input(inp);
-	ft_printf("\n");
-	ft_printf("%p\n", inp->rooms_list);
-	for (int i = 0; i < inp->nr_rooms; i++)
-		ft_printf("%s\n", inp->rooms_tab[i]->name);
+	!inp->nr_lems || !inp->nr_rooms || !inp->nr_conns
+		? error(INPUT_ER) : DO_NONE;
+	print_input(inp);
 	return (0);
 }

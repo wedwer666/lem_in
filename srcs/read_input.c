@@ -6,13 +6,13 @@
 /*   By: pcervac <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 19:05:12 by pcervac           #+#    #+#             */
-/*   Updated: 2017/02/13 20:09:51 by pcervac          ###   ########.fr       */
+/*   Updated: 2017/02/14 17:22:42 by pcervac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-t_bool	process_diez(t_input *inp, t_string line, const int *phase)
+t_bool	read_diez(t_input *inp, t_string line, const int *phase)
 {
 	int		i;
 
@@ -49,8 +49,10 @@ t_bool	read_rooms(t_input *inp, t_string line, int *phase)
 	*space2 = '\0';
 	ft_isnbr(space1 + 1) ? room->cor->x = ft_atoi(space1) : error(INPUT_ER);
 	*space1 = '\0';
-	NULL != find_room_by_name_list(inp->rooms_list, line) ? error(EROOM_ER) : DO_NONE;
-	NULL != find_room_by_coord_list(inp->rooms_list, room->cor) ? error(ECOORD_ER) : NONE;
+	NULL != find_room_by_name_list(inp->rooms_list, line)
+		? error(EROOM_ER) : DO_NONE;
+	NULL != find_room_by_coord_list(inp->rooms_list, room->cor)
+		? error(ECOORD_ER) : DO_NONE;
 	room->name = ft_strdup(line);
 	room->stat = inp->stat;
 	ft_lstadd(&inp->rooms_list, ft_lstnew(NULL, 0));
@@ -62,31 +64,24 @@ t_bool	read_rooms(t_input *inp, t_string line, int *phase)
 
 t_bool	read_connections(t_input *inp, t_string line)
 {
-	return (inp || line);
-}
-/*
-t_bool	read_connections(t_input *inp, t_string line)
-{
 	t_string	delimiter;
-	t_room		*room1;
-	t_room		*room2;
+	int			room1_ind;
+	int			room2_ind;
 
 	NULL == (delimiter = ft_strchr(line, '-')) ? error(INPUT_ER) : DO_NONE;
-	*delimiter = '\0';
-	delimiter++;
-	NULL == (room1 = find_room_by_name_list(inp->rooms, line))
-		? error(NEROOM_ER) : 0;
-	NULL == (room2 = find_room_by_name_list(inp->rooms, delimiter))
-		? error(NEROOM_ER) : 0;
-	NULL != find_room_by_name_list(room1->conns, room2->name) ? error(ECONN_ER) : 0;
-	NULL != find_room_by_name_list(room2->conns, room1->name) ? error(ECONN_ER) : 0;
-	ft_lstadd(&room1->conns, ft_lstnew(NULL, 0));
-	ft_lstadd(&room2->conns, ft_lstnew(NULL, 0));
-	room1->conns->content = (void*)room2;
-	room2->conns->content = (void*)room1;
+	*delimiter++ = '\0';
+	-1 == (room1_ind = find_room_by_name_tab(inp->rooms_tab, line))
+		? error(NEROOM_ER) : DO_NONE;
+	-1 == (room2_ind = find_room_by_name_tab(inp->rooms_tab, delimiter))
+		? error(NEROOM_ER) : DO_NONE;
+	inp->ad_matr[room1_ind][room2_ind] || inp->ad_matr[room2_ind][room1_ind]
+		? error(ECONN_ER) : DO_NONE;
+	inp->ad_matr[room1_ind][room2_ind] = 1;
+	inp->ad_matr[room2_ind][room1_ind] = 1;
+	inp->nr_conns++;
 	return (true);
 }
-*/
+
 t_bool	read_ants(t_input *inp, t_string line, int *phase)
 {
 	!ft_isnbr(line) ? error(INPUT_ER) : DO_NONE;
@@ -105,7 +100,7 @@ void	read_input(t_input *inp)
 	while (1 == (ret = ft_get_next_line(STDIN_FILENO, &line)))
 	{
 		*line == '\0' ? error(INPUT_ER) : DO_NONE;
-		if (process_diez(inp, line, &phase))
+		if (read_diez(inp, line, &phase))
 			NON_ACTION;
 		else if (phase == READ_ANTS && read_ants(inp, line, &phase))
 			NON_ACTION;

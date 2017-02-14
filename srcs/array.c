@@ -6,7 +6,7 @@
 /*   By: pcervac <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 19:05:12 by pcervac           #+#    #+#             */
-/*   Updated: 2017/02/13 20:54:30 by pcervac          ###   ########.fr       */
+/*   Updated: 2017/02/14 17:36:43 by pcervac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,19 @@
 
 void    del(void *content, size_t content_size)
 {
-	content || content_size ? DO_NONE : DO_NONE;
+	if (content || content_size ? DO_NONE : DO_NONE)
+		return ;
 }
 
 void	make_ad_matr(t_input *inp)
 {
 	int		i;
 
-	inp->ad_matr = (int**)ft_memalloc(sizeof(int*) * inp->nr_rooms);
+	inp->ad_matr = (int**)ft_memalloc(sizeof(int*) * (inp->nr_rooms + 1));
 	NULL == inp->ad_matr ? error(strerror(errno)) : DO_NONE;
 	i = 0;
-	while (i != inp->nr_lems)
-		inp->ad_matr[i++] = (int*)ft_memalloc(sizeof(int) * inp->nr_rooms);
+	while (i != inp->nr_rooms)
+		inp->ad_matr[i++] = (int*)ft_memalloc(sizeof(int) * (inp->nr_rooms + 1));
 }
 
 void	list_to_array(t_input *inp)
@@ -45,4 +46,5 @@ void	list_to_array(t_input *inp)
 	}
 	ft_lstdel(&inp->rooms_list, del);
 	inp->rooms_tab = rooms;
+	make_ad_matr(inp);
 }

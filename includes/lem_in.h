@@ -6,7 +6,7 @@
 /*   By: mmitriuc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 14:07:19 by mmitriuc          #+#    #+#             */
-/*   Updated: 2017/02/13 20:42:19 by pcervac          ###   ########.fr       */
+/*   Updated: 2017/02/14 17:36:46 by pcervac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 # define EROOM_ER	"Error: specifed room already exist"
 # define ECOORD_ER	"Error: specifed coordinates already is used"
 # define STAT_ER	"Error: the room with this status already exist"
-# define ECONN_ER	"Error: the link which is probed to create already exist"
+# define ECONN_ER	"Error: the  which is probed to create already exist"
 
 # define NORMAL		0
 # define START		1
@@ -108,5 +108,6 @@ t_room				*find_room_by_coord_list(t_list *rooms, const t_coord *cor);
 t_room				*find_room_by_status_list(t_list *rooms, int status);
 t_room				*make_room(void);
 void				list_to_array(t_input *inp);	
+int					find_room_by_name_tab(t_room **rooms, const t_string name);
 
 #endif

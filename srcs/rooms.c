@@ -6,11 +6,22 @@
 /*   By: pcervac <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/12 18:53:04 by pcervac           #+#    #+#             */
-/*   Updated: 2017/02/13 18:42:20 by pcervac          ###   ########.fr       */
+/*   Updated: 2017/02/14 16:47:29 by pcervac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
+
+int		find_room_by_name_tab(t_room **rooms, const t_string name)
+{
+	int		i;
+
+	i = 0;
+	while (NULL != rooms[i])
+		if (ft_strequ(rooms[i++]->name, name))
+			return (i - 1);
+	return (-1);
+}
 
 t_room	*find_room_by_name_list(t_list *rooms, const t_string name)
 {
