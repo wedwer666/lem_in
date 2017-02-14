@@ -6,7 +6,7 @@
 #    By: pcervac <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/06 19:12:39 by pcervac           #+#    #+#              #
-#    Updated: 2017/02/12 19:15:25 by pcervac          ###   ########.fr        #
+#    Updated: 2017/02/13 18:56:35 by pcervac          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,8 @@ SRC_FILES=main.c		\
 		  read_input.c	\
 		  flags.c		\
 		  error.c		\
-		  rooms.c	
+		  rooms.c		\
+		  array.c	  
 SRC=$(addprefix $(SRC_PATH),$(SRC_FILES))
 
 INC_PATH=./includes/

@@ -6,13 +6,13 @@
 /*   By: pcervac <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/12 18:53:04 by pcervac           #+#    #+#             */
-/*   Updated: 2017/02/12 18:53:15 by pcervac          ###   ########.fr       */
+/*   Updated: 2017/02/13 18:42:20 by pcervac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-t_room	*find_room_by_name(t_list *rooms, const t_string name)
+t_room	*find_room_by_name_list(t_list *rooms, const t_string name)
 {
 	t_list	*tmp;
 
@@ -27,7 +27,7 @@ t_room	*find_room_by_name(t_list *rooms, const t_string name)
 	return (NULL == tmp ? NULL : (t_room*)tmp->content);
 }
 
-t_room	*find_room_by_coord(t_list *rooms, const t_coord *cor)
+t_room	*find_room_by_coord_list(t_list *rooms, const t_coord *cor)
 {
 	t_list	*tmp;
 	t_coord	*tmp_cor;
@@ -46,7 +46,7 @@ t_room	*find_room_by_coord(t_list *rooms, const t_coord *cor)
 	return (NULL == tmp ? NULL : (t_room*)tmp->content);
 }
 
-t_room	*find_room_by_status(t_list *rooms, int status)
+t_room	*find_room_by_status_list(t_list *rooms, int status)
 {
 	t_list	*tmp;
 

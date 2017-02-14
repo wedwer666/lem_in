@@ -6,13 +6,11 @@
 /*   By: pcervac <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 17:47:29 by pcervac           #+#    #+#             */
-/*   Updated: 2017/02/12 19:15:01 by pcervac          ###   ########.fr       */
+/*   Updated: 2017/02/13 20:23:22 by pcervac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
-
-#define FILE_FL	"-fl"
 
 t_input	*make_input(void)
 {
@@ -21,12 +19,14 @@ t_input	*make_input(void)
 	tmp = (t_input*)ft_memalloc(sizeof(t_input));
 	NULL == tmp ? error(strerror(errno)) : DO_NONE;
 	tmp->nr_lems = 0;
-	tmp->rooms = NULL;
+	tmp->rooms_list = NULL;
 	tmp->flags = create_flags();
 	tmp->stat = NORMAL;
+	tmp->nr_rooms = 0;
+	tmp->nr_conns = 0;
 	return (tmp);
 }
-
+/*
 void	show(t_list *elem)
 {
 	t_room	*room;
@@ -34,7 +34,7 @@ void	show(t_list *elem)
 	room = (t_room*)elem->content;
 	ft_printf("%s %d %d stat: %d\n", room->name, room->cor->x, room->cor->y, room->stat);
 }
-
+*/
 int		main(void)
 {
 	t_input		*inp;
@@ -42,6 +42,8 @@ int		main(void)
 	inp = make_input();
 	read_input(inp);
 	ft_printf("\n");
-//	ft_lstiter(inp->rooms, show);
+	ft_printf("%p\n", inp->rooms_list);
+	for (int i = 0; i < inp->nr_rooms; i++)
+		ft_printf("%s\n", inp->rooms_tab[i]->name);
 	return (0);
 }

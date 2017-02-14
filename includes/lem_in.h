@@ -6,7 +6,7 @@
 /*   By: mmitriuc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 14:07:19 by mmitriuc          #+#    #+#             */
-/*   Updated: 2017/02/12 18:52:21 by pcervac          ###   ########.fr       */
+/*   Updated: 2017/02/13 20:42:19 by pcervac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ typedef struct		s_room
 	t_status		stat;
 }					t_room;
 
-
 typedef struct  	s_flags
 {
     t_string    	name;
@@ -91,8 +90,12 @@ typedef struct  	s_flags
 typedef struct 		s_input
 {
 	int				nr_lems;
+	int				nr_rooms;
+	int				nr_conns;
 	int				fd;
-	t_list			*rooms;
+	t_list			*rooms_list;
+	t_room			**rooms_tab;
+	int				**ad_matr;
 	t_flags			*flags;
 	int				stat;
 }					t_input;
@@ -100,9 +103,10 @@ typedef struct 		s_input
 void				read_input(t_input *inp);
 void				error(t_string msg);
 t_flags 			*create_flags(void);
-t_room				*find_room_by_name(t_list *rooms, const t_string name);
-t_room				*find_room_by_coord(t_list *rooms, const t_coord *cor);
-t_room				*find_room_by_status(t_list *rooms, int status);
+t_room				*find_room_by_name_list(t_list *rooms, const t_string name);
+t_room				*find_room_by_coord_list(t_list *rooms, const t_coord *cor);
+t_room				*find_room_by_status_list(t_list *rooms, int status);
 t_room				*make_room(void);
+void				list_to_array(t_input *inp);	
 
 #endif

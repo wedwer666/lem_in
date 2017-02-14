@@ -6,7 +6,7 @@
 /*   By: pcervac <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 19:05:12 by pcervac           #+#    #+#             */
-/*   Updated: 2017/02/12 19:26:00 by pcervac          ###   ########.fr       */
+/*   Updated: 2017/02/13 20:09:51 by pcervac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ t_bool	read_rooms(t_input *inp, t_string line, int *phase)
 	if (NULL == (space1 = ft_strchr(line, ' ')))
 	{
 		*phase = READ_LINKS;
+		list_to_array(inp);
 		return (false);
 	}
 	NULL == (space2 = ft_strchr(space1 + 1, ' ')) ? error(INPUT_ER) : DO_NONE;
@@ -48,16 +49,22 @@ t_bool	read_rooms(t_input *inp, t_string line, int *phase)
 	*space2 = '\0';
 	ft_isnbr(space1 + 1) ? room->cor->x = ft_atoi(space1) : error(INPUT_ER);
 	*space1 = '\0';
-	NULL != find_room_by_name(inp->rooms, line) ? error(EROOM_ER) : DO_NONE;
-	NULL != find_room_by_coord(inp->rooms, room->cor) ? error(ECOORD_ER) : NONE;
+	NULL != find_room_by_name_list(inp->rooms_list, line) ? error(EROOM_ER) : DO_NONE;
+	NULL != find_room_by_coord_list(inp->rooms_list, room->cor) ? error(ECOORD_ER) : NONE;
 	room->name = ft_strdup(line);
 	room->stat = inp->stat;
-	ft_lstadd(&inp->rooms, ft_lstnew(NULL, 0));
-	inp->rooms->content = (void*)room;
+	ft_lstadd(&inp->rooms_list, ft_lstnew(NULL, 0));
+	(inp->rooms_list)->content = (void*)room;
 	inp->stat = NORMAL;
+	inp->nr_rooms++;
 	return (true);
 }
 
+t_bool	read_connections(t_input *inp, t_string line)
+{
+	return (inp || line);
+}
+/*
 t_bool	read_connections(t_input *inp, t_string line)
 {
 	t_string	delimiter;
@@ -67,19 +74,19 @@ t_bool	read_connections(t_input *inp, t_string line)
 	NULL == (delimiter = ft_strchr(line, '-')) ? error(INPUT_ER) : DO_NONE;
 	*delimiter = '\0';
 	delimiter++;
-	NULL == (room1 = find_room_by_name(inp->rooms, line))
+	NULL == (room1 = find_room_by_name_list(inp->rooms, line))
 		? error(NEROOM_ER) : 0;
-	NULL == (room2 = find_room_by_name(inp->rooms, delimiter))
+	NULL == (room2 = find_room_by_name_list(inp->rooms, delimiter))
 		? error(NEROOM_ER) : 0;
-	NULL != find_room_by_name(room1->conns, room2->name) ? error(ECONN_ER) : 0;
-	NULL != find_room_by_name(room2->conns, room1->name) ? error(ECONN_ER) : 0;
+	NULL != find_room_by_name_list(room1->conns, room2->name) ? error(ECONN_ER) : 0;
+	NULL != find_room_by_name_list(room2->conns, room1->name) ? error(ECONN_ER) : 0;
 	ft_lstadd(&room1->conns, ft_lstnew(NULL, 0));
 	ft_lstadd(&room2->conns, ft_lstnew(NULL, 0));
 	room1->conns->content = (void*)room2;
 	room2->conns->content = (void*)room1;
 	return (true);
 }
-
+*/
 t_bool	read_ants(t_input *inp, t_string line, int *phase)
 {
 	!ft_isnbr(line) ? error(INPUT_ER) : DO_NONE;
@@ -97,7 +104,6 @@ void	read_input(t_input *inp)
 	phase = READ_ANTS;
 	while (1 == (ret = ft_get_next_line(STDIN_FILENO, &line)))
 	{
-		ft_printf("line = %s", line);
 		*line == '\0' ? error(INPUT_ER) : DO_NONE;
 		if (process_diez(inp, line, &phase))
 			NON_ACTION;
