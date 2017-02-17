@@ -6,7 +6,7 @@
 #    By: pcervac <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/06 19:12:39 by pcervac           #+#    #+#              #
-#    Updated: 2017/02/13 18:56:35 by pcervac          ###   ########.fr        #
+#    Updated: 2017/02/17 19:06:42 by pcervac          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ SRC_FILES=main.c		\
 		  flags.c		\
 		  error.c		\
 		  rooms.c		\
-		  array.c	  
+		  array.c	 	\
+		  dijkstra.c 
 SRC=$(addprefix $(SRC_PATH),$(SRC_FILES))
 
 INC_PATH=./includes/

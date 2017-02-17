@@ -6,7 +6,7 @@
 /*   By: pcervac <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 19:05:12 by pcervac           #+#    #+#             */
-/*   Updated: 2017/02/14 17:36:43 by pcervac          ###   ########.fr       */
+/*   Updated: 2017/02/17 18:28:56 by pcervac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,18 @@ void    del(void *content, size_t content_size)
 void	make_ad_matr(t_input *inp)
 {
 	int		i;
+	int		j;
 
-	inp->ad_matr = (int**)ft_memalloc(sizeof(int*) * (inp->nr_rooms + 1));
+	inp->ad_matr = (int**)ft_memalloc(sizeof(int*) * inp->nr_rooms);
 	NULL == inp->ad_matr ? error(strerror(errno)) : DO_NONE;
-	i = 0;
-	while (i != inp->nr_rooms)
-		inp->ad_matr[i++] = (int*)ft_memalloc(sizeof(int) * (inp->nr_rooms + 1));
+	i = -1;
+	while (++i != inp->nr_rooms)
+	{
+		inp->ad_matr[i] = (int*)ft_memalloc(sizeof(int) * inp->nr_rooms);
+		j = -1;
+		while (++j != inp->nr_rooms)
+			inp->ad_matr[i][j] = INF;
+	}
 }
 
 void	list_to_array(t_input *inp)

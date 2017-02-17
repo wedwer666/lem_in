@@ -6,7 +6,7 @@
 /*   By: pcervac <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 19:05:12 by pcervac           #+#    #+#             */
-/*   Updated: 2017/02/12 17:43:48 by pcervac          ###   ########.fr       */
+/*   Updated: 2017/02/17 18:50:51 by pcervac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void    mark_start(void *inp, const int *phase)
     once ? error(INPUT_ER) : DO_NONE;
 	((t_input*)inp)->stat != NORMAL ? error(INPUT_ER) : DO_NONE;
     ((t_input*)inp)->stat = START;
-    once = true;
+	once = true;
 }
 
 void    mark_end(void *inp, const int *phase)

@@ -6,7 +6,7 @@
 /*   By: pcervac <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 17:47:29 by pcervac           #+#    #+#             */
-/*   Updated: 2017/02/14 17:36:44 by pcervac          ###   ########.fr       */
+/*   Updated: 2017/02/17 19:04:54 by pcervac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,22 @@ void	print_input(t_input *inp)
 int		main(void)
 {
 	t_input		*inp;
+	t_path		*path;
+	t_graf		graf;
 
 	inp = make_input();
 	read_input(inp);
 	!inp->nr_lems || !inp->nr_rooms || !inp->nr_conns
 		? error(INPUT_ER) : DO_NONE;
 	print_input(inp);
+	graf.rooms = inp->rooms_tab;
+	graf.ad_matr = inp->ad_matr;
+	graf.nr_rooms = inp->nr_rooms;
+	path = get_path(&graf,
+			find_room_by_status_tab(graf.rooms, start),
+			find_room_by_status_tab(graf.rooms, end));
+	ft_printf("Drumul minim: %d\n", path->lenght);
+	for (int i = 0; i < path->lenght; i++)
+		ft_printf("%-3d %c", path->path[i], i != path->lenght - 1 ? ' ' : '\n'); 
 	return (0);
 }

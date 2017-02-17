@@ -6,7 +6,7 @@
 /*   By: pcervac <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 19:05:12 by pcervac           #+#    #+#             */
-/*   Updated: 2017/02/14 17:22:42 by pcervac          ###   ########.fr       */
+/*   Updated: 2017/02/17 19:16:53 by pcervac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ t_bool	read_connections(t_input *inp, t_string line)
 		? error(NEROOM_ER) : DO_NONE;
 	-1 == (room2_ind = find_room_by_name_tab(inp->rooms_tab, delimiter))
 		? error(NEROOM_ER) : DO_NONE;
-	inp->ad_matr[room1_ind][room2_ind] || inp->ad_matr[room2_ind][room1_ind]
+	inp->ad_matr[room1_ind][room2_ind] != INF || inp->ad_matr[room2_ind][room1_ind] != INF
 		? error(ECONN_ER) : DO_NONE;
 	inp->ad_matr[room1_ind][room2_ind] = 1;
 	inp->ad_matr[room2_ind][room1_ind] = 1;
