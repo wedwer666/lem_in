@@ -6,7 +6,7 @@
 /*   By: mmitriuc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:12:42 by mmitriuc          #+#    #+#             */
-/*   Updated: 2017/02/17 19:42:01 by pcervac          ###   ########.fr       */
+/*   Updated: 2017/02/19 17:25:12 by pcervac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,80 +16,67 @@
 #define UNMARK	0
 
 // we are super bravo!!
-t_tmp	*make_tmp(t_graf *graf)
-{
-	t_tmp	*tmp;
-	int		i;
-
-	tmp = (t_tmp*)ft_memalloc(sizeof(t_tmp) * graf->nr_rooms);
- 	i = -1;
-	while (++i < graf->nr_rooms)
-	{
-		tmp[i].lenght = INF;
-		tmp[i].state = UNMARK;
-	}
-	return (tmp);
-}
-
-t_path	*make_path(t_tmp *tmp, int end)
+t_path	*make_path(t_node *nodes, int end)
 {
 	t_path		*path;
 	int			i;
 
-	ft_putendl("1");
 	path = (t_path*)ft_memalloc(sizeof(t_path));
-	ft_putendl("2");
-	ft_printf("lenght = %d\n", tmp[end].lenght);
-	path->path = (int*)ft_memalloc(sizeof(int) * tmp[end].lenght);
-	ft_putendl("2");
-	i = tmp[end].lenght;
-	ft_putendl("3");
+	path->path = (int*)ft_memalloc(sizeof(int) * (nodes[end].dist + 1));
+	path->dist = nodes[end].dist;
+	i = nodes[end].dist + 1;
 	while (--i >= 0)
 	{
-	ft_putendl("4");
-		path->path[i] = tmp[end].begin;
-		end = tmp[end].begin;
+		path->path[i] = end;
+		end = nodes[end].prec;
 	}
-	ft_putendl("5");
-
-//	ft_memdel((void**)&tmp);
+	ft_memdel((void**)&nodes);
 	return (path);
 }
 
-t_path 	*get_path(t_graf *graf, int start, int end)
+t_node	*make_nodes(t_graf *graf, int start)
 {
-	int		k;
-	t_tmp	*tmp;
-	int 	w;
-	int		prec;
-	int		min;
+	t_node	*nodes;
+	int		i;
 
-	tmp = make_tmp(graf);
-	k = -1;
-	while (++k < graf->nr_rooms)
+	nodes = (t_node*)ft_memalloc(sizeof(t_node) * graf->nr_rooms);
+	NULL == nodes ? error(strerror(errno)) : DO_NONE;
+	i = -1;
+	while (++i < graf->nr_rooms)
 	{
-		min = INF;
-		w = 1;
-		prec = start;
-		while (w <= graf->nr_rooms)
-		{
-			if (tmp[start].lenght < min && !tmp[w].state)
-			{
-				min = tmp[w].lenght;
-				start = w;
-			}
-			w++;
-		}
-		tmp[start].state = 1;
-		tmp[start].begin = prec;
-		k++;
-		w = 1;
-		while (w <= graf->nr_rooms)
-		{
-			if ((tmp[start].lenght + 1 < tmp[w].lenght) && !tmp[w].state)
-				tmp[w].lenght = tmp[start].lenght + 1;
-			w++;
-		}
+		nodes[i].dist = i == start ? 0 : INF;
+		nodes[i].stat = i == start ? MARK : UNMARK;
 	}
-	return (make_path(tmp, end));
+	return (nodes);
+}
+
+t_path	*get_path(t_graf *graf, int start, int end)
+{
+	int		cur;
+	t_node	*nodes;
+
+	nodes = make_nodes(graf, start);
+	while (true)
+	{
+		nodes[start].stat = MARK;
+		cur = -1;
+		while (++cur != graf->nr_rooms)
+			if (graf->ad_matr[start][cur] != INF
+					&& nodes[cur].stat == UNMARK
+					&& nodes[cur].dist > graf->ad_matr[start][cur] + nodes[start].dist)
+			{
+				nodes[cur].dist = graf->ad_matr[start][cur] + nodes[start].dist;
+				nodes[cur].prec = start;
+			}
+				start = -1;
+		while (cur-- != 0)
+		{
+			if (nodes[cur].stat == UNMARK
+					&& (-1 == start || (nodes[cur].dist < nodes[start].dist)))
+				start = cur;
+		}
+		if (-1 == start)
+			break ;
+	}
+	return (make_path(nodes, end));
 }

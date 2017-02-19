@@ -6,7 +6,7 @@
 /*   By: mmitriuc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 14:07:19 by mmitriuc          #+#    #+#             */
-/*   Updated: 2017/02/17 19:42:03 by pcervac          ###   ########.fr       */
+/*   Updated: 2017/02/19 17:14:03 by pcervac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@
 # define READ_ROOMS	2
 # define READ_LINKS	3
 
-# define INF		INT_MAX
+# define INF		9999
 
 typedef char*		t_string;
 
@@ -112,16 +112,16 @@ typedef struct		s_graf
 	int				nr_rooms;
 }					t_graf;
 
-typedef struct		s_tmp
+typedef struct		s_node
 {
-	int				lenght;
-	int				begin;
-	int				state;	
-}					t_tmp;
+	int				dist;
+	int				prec;
+	int				stat;	
+}					t_node;
 
 typedef struct		s_path
 {
-	int				lenght;
+	int				dist;
 	int				*path;
 }					t_path;
 
