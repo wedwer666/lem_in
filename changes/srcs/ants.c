@@ -29,7 +29,10 @@ void 	ants(t_lem *lems, int k)
 
 void  show_rooms(int *t_graf,const int nr_lems)
 {
-	if (nr_lems < nr_lems)
+	int i;
+	
+	i = -1;
+	if (++i < nr_lems)
 	{
 		ft_putstr("L");
 		ft_putnbr(t_rooms(rooms));
@@ -37,9 +40,9 @@ void  show_rooms(int *t_graf,const int nr_lems)
 		ft_putstr(t_rooms(rooms));
 		ft_putchar(' ');
 	}
-	if (nr_lems == nr_lems)
+	i = -1;
+	if ( ++i == nr_lems)
 		ft_putstr(' ');
 	else
 		break;
 }
-
