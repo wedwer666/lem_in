@@ -21,13 +21,13 @@
 
 void 	ants(t_lem *lems, int k)
 {
-	if (t_lems == UNMOVED)
-		move_ant(&lems, &graf);
-	if (t_lems == MOVED)
+	if (nr_lems[i].status == UNMOVED)
+		show_rooms(&lems, nr_lems);
+	if (nr_lems[i].status == MOVED)
 		break;
 }
 
-void  ft_show_rooms(int *t_graf,const int nr_lems)
+void  show_rooms(int *t_graf,const int nr_lems)
 {
 	if (nr_lems < nr_lems)
 	{
