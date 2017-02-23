@@ -3,42 +3,83 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mmitriuc <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: pcervac <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2017/01/27 13:50:20 by mmitriuc          #+#    #+#              #
-#    Updated: 2017/02/06 16:15:34 by mmitriuc         ###   ########.fr        #
+#    Created: 2017/02/06 19:12:39 by pcervac           #+#    #+#              #
+#    Updated: 2017/02/23 17:57:55 by pcervac          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = lem_in
-SRC = src/main.c \
-	  src/ft_djikistra.c \
-	  src/fillit.h
-SRC = src/main.c \
-	  src/ft_info.c \
-	  src/ft_verf.c \
-	  src/ft_read.c \
-	  src/ft_verfificare.c \
+NAME=lem_in
 
- OBJ = $(SRC:.c=.o)
-  FLAGS = -Wall -Wextra -Werror
-  LIB = -Llib -lft
-  INCLUDE = -Ilib
-  EXTRAFLAGS = $(LIB) $(INCLUDE)
-  LIB = lib/libft.a
-  INCLUDE = -Ilib -Isrc
-   all: $(NAME)
+SRC_PATH=./srcs/
+SRC_FILES=main.c		\
+		  read_input.c	\
+		  flags.c		\
+		  error.c		\
+		  rooms.c		\
+		  array.c	 	\
+		  dijkstra.c	\
+		  ants.c		\
+		  move_ant.c 
+SRC=$(addprefix $(SRC_PATH),$(SRC_FILES))
 
- $(NAME): $(OBJ)
-     @gcc $(FLAGS) -o $(NAME) $(SRC) $(EXTRAFLAGS)
-	     gcc $(FLAGS) $(INCLUDE) -o $(NAME) $(OBJ) $(LIB)
+INC_PATH=./includes/
+INC_FILES=
 
- $(OBJ): libft
- 	@gcc $(FLAGS) $*.c -o $@ $(EXTRAFLAGS)
-		gcc $(FLAGS) $*.c -o $@ -c $(INCLUDE)
+OBJ_PATH=./obj/
+OBJ=$(addprefix $(OBJ_PATH),$(notdir $(SRC:.c=.o)))
 
- libft:
-  	@make -C lib
+LIB_PATH=./libft/
+LIB_INC=./libft/includes/
+LIB=libft.a
+LIB_LINK=-L$(LIB_PATH) $(subst lib,-lft,$(subst ft.a, ,$(LIB)))
 
- clean :
-      	@rm -rf $(OBJ)%    
+CC=cc
+CFLAGS=-Wall -Wextra
+
+AUTHOR_FILE=./auteur
+
+all: $(NAME) $(LIB_PATH)$(LIB)
+
+$(NAME): $(LIB_PATH)$(LIB) $(OBJ)
+	@/bin/echo -n 'Compile' $(NAME) 'executable ...'
+	@$(CC) $(OBJ) $(LIB_LINK) -o $(NAME)
+	@/bin/echo '[done]'
+
+$(LIB_PATH)$(LIB):
+	@make -C $(LIB_PATH) $(LIB)
+
+$(OBJ): $(OBJ_PATH)
+	@/bin/echo -n 'Compile' $(NAME) 'files ...'
+	@$(CC) $(CFLAGS) -c $(SRC) -I$(INC_PATH) -I$(LIB_INC)
+	@/bin/echo '[done]'
+	@/bin/echo -n 'Move' $(NAME) 'objects files ...'
+	@/bin/mv $(notdir $(OBJ)) $(OBJ_PATH)
+	@/bin/echo '[done]'
+
+$(OBJ_PATH):
+	@/bin/mkdir $(OBJ_PATH)
+
+clean:
+	@/bin/echo -n 'Removing' $(NAME) 'objects ...'
+	@/bin/rm -f $(OBJ)
+	@/bin/echo '[done]'
+	@make -C $(LIB_PATH) clean
+
+fclean: clean
+	@/bin/echo -n 'Removing' $(NAME) 'executable ...'
+	@/bin/rm -f $(NAME)
+	@/bin/echo '[done]'
+
+ls:
+	@make -C $(LIB_PATH) fclean
+
+re: fclean all
+
+author:
+	@/bin/cat $(AUTHOR_FILE)
+n:
+	@norminette $(SRC) $(INC)
+
+.PHONY: author clean fclean all n re
