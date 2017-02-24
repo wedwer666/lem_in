@@ -6,7 +6,7 @@
 #    By: pcervac <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/06 19:12:39 by pcervac           #+#    #+#              #
-#    Updated: 2017/02/23 17:57:55 by pcervac          ###   ########.fr        #
+#    Updated: 2017/02/24 19:19:40 by pcervac          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,8 @@ SRC_FILES=main.c		\
 SRC=$(addprefix $(SRC_PATH),$(SRC_FILES))
 
 INC_PATH=./includes/
-INC_FILES=
+INC_FILES=lem_in.h
+INC=$(INC_PATH)$(INC_FILES)
 
 OBJ_PATH=./obj/
 OBJ=$(addprefix $(OBJ_PATH),$(notdir $(SRC:.c=.o)))

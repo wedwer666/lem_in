@@ -6,7 +6,7 @@
 /*   By: mmitriuc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 14:07:19 by mmitriuc          #+#    #+#             */
-/*   Updated: 2017/02/24 16:32:14 by pcervac          ###   ########.fr       */
+/*   Updated: 2017/02/24 19:35:35 by pcervac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@
 
 # define FREE	1
 # define UNFREE	0
-
 
 # define INPUT_ER	"Error: invalid format of input data"
 # define NEROOM_ER	"Error: specifed room doesn\'t exist"
@@ -96,17 +95,17 @@ typedef struct		s_room
 	t_string		name;
 	t_coord			*cor;
 	t_list			*conns;
-	int				type; // START or END or NORMAL
-	int				status;// FREE or UNFREE
+	int				type;
+	int				status;
 }					t_room;
 
-typedef struct  	s_flags
+typedef struct		s_flags
 {
-    t_string    	name;
-    void        	(*act)(void *inp, const int *phase);
-}               	t_flags;
+	t_string		name;
+	void			(*act)(void *inp, const int *phase);
+}					t_flags;
 
-typedef struct 		s_input
+typedef struct		s_input
 {
 	int				nr_lems;
 	int				nr_rooms;
@@ -133,7 +132,7 @@ typedef struct		s_node
 {
 	int				dist;
 	int				prec;
-	int				stat;//MARK or UNMAK	
+	int				stat;
 }					t_node;
 
 typedef struct		s_path
@@ -145,24 +144,34 @@ typedef struct		s_path
 typedef struct		s_lem
 {
 	t_path			*path;
-	int				status;//MOVED or UNMOVED
+	int				status;
 	int				cam;
 }					t_lem;
 
+typedef struct		s_move_ant
+{
+	t_lem			*lems;
+	t_graf			*graf;
+	int				start;
+	int				end;
+	t_bool			moved;
+	int				i;
+}					t_move_ant;
+
 void				read_input(t_input *inp);
 void				error(t_string msg);
-t_flags 			*create_flags(void);
+t_flags				*create_flags(void);
 t_room				*find_room_by_name_list(t_list *rooms, const t_string name);
 t_room				*find_room_by_coord_list(t_list *rooms, const t_coord *cor);
 t_room				*find_room_by_status_list(t_list *rooms, int status);
 t_room				*make_room(void);
-void				list_to_array(t_input *inp);	
+void				list_to_array(t_input *inp);
 int					find_room_by_name_tab(t_room **rooms, const t_string name);
 int					find_room_by_status_tab(t_room **rooms, t_status status);
-
-t_path 				*get_path(t_graf *graf, int start, int end);
-void				show_rooms(t_lem *lems, t_graf *t_graf, const int nr_lems);
+t_path				*get_path(t_graf *graf, int start, int end);
+void				show_rooms(t_lem *lems, t_graf *graf, const int nr_lems);
 void				move_ant(t_lem *lems, t_graf *graf, const int nr_lems);
 t_lem				*make_lems(t_room **rooms, const int nr_lems);
 void				print_path(t_graf *graf, t_path *path);
+
 #endif

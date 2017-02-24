@@ -6,13 +6,13 @@
 /*   By: pcervac <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/23 16:18:10 by pcervac           #+#    #+#             */
-/*   Updated: 2017/02/23 19:21:33 by pcervac          ###   ########.fr       */
+/*   Updated: 2017/02/24 18:36:11 by pcervac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-void  show_rooms(t_lem *lems, t_graf *graf, const int nr_lems)
+void	show_rooms(t_lem *lems, t_graf *graf, const int nr_lems)
 {
 	int i;
 	int	moved;
@@ -29,4 +29,17 @@ void  show_rooms(t_lem *lems, t_graf *graf, const int nr_lems)
 		}
 	}
 	ft_putendl("");
+}
+
+t_room	*make_room(void)
+{
+	t_room	*room;
+
+	room = (t_room*)ft_memalloc(sizeof(t_room));
+	NULL == room ? error(strerror(errno)) : DO_NONE;
+	room->cor = (t_coord*)ft_memalloc(sizeof(t_coord));
+	NULL == room->cor ? error(strerror(errno)) : DO_NONE;
+	room->conns = NULL;
+	room->status = FREE;
+	return (room);
 }

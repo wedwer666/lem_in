@@ -6,7 +6,7 @@
 /*   By: pcervac <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 17:47:29 by pcervac           #+#    #+#             */
-/*   Updated: 2017/02/24 16:34:58 by pcervac          ###   ########.fr       */
+/*   Updated: 2017/02/24 17:07:36 by pcervac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,30 +27,6 @@ t_input	*make_input(void)
 	return (tmp);
 }
 
-/*
- * This function must be deleted in final version
- */
-void	print_input(t_input *inp)
-{
-	ft_printf("nr_lems: %d\nnr_rooms: %d\nnr_legs: %d\n",
-			inp->nr_lems, inp->nr_rooms, inp->nr_conns); 
-	for (int i = 0; i < inp->nr_rooms; i++)
-		ft_printf("%s%c",
-				inp->rooms_tab[i]->name, i != inp->nr_rooms - 1 ? ' ' : '\n');
-	for (int i = 0; i < inp->nr_rooms; i++)
-		for (int j = 0; j < inp->nr_rooms; j++)
-			ft_printf("%-2d %c",
-					inp->ad_matr[i][j], j != inp->nr_rooms - 1 ? ' ' : '\n'); 
-}
-
-void	print_path(t_graf *graf, t_path *path)
-{
-	ft_printf("Drumul minim: %d\n", path->dist);
-	for (int i = 0; i < path->dist + 1; i++)
-		ft_printf("%-3s %c", graf->rooms[path->path[i]]->name,
-				i != path->dist ? ' ' : '\n'); 
-}
-
 int		main(void)
 {
 	t_input		*inp;
@@ -60,11 +36,9 @@ int		main(void)
 	read_input(inp);
 	!inp->nr_lems || !inp->nr_rooms || !inp->nr_conns
 		? error(INPUT_ER) : DO_NONE;
-	//print_input(inp);
 	graf.rooms = inp->rooms_tab;
 	graf.ad_matr = inp->ad_matr;
 	graf.nr_rooms = inp->nr_rooms;
-	//print_path(&graf, path);
 	move_ant(make_lems(graf.rooms, inp->nr_lems), &graf, inp->nr_lems);
 	return (0);
 }

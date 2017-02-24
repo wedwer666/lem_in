@@ -6,13 +6,13 @@
 /*   By: pcervac <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 19:05:12 by pcervac           #+#    #+#             */
-/*   Updated: 2017/02/17 18:28:56 by pcervac          ###   ########.fr       */
+/*   Updated: 2017/02/24 17:49:14 by pcervac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-void    del(void *content, size_t content_size)
+void	del(void *content, size_t content_size)
 {
 	if (content || content_size ? DO_NONE : DO_NONE)
 		return ;

@@ -6,11 +6,13 @@
 /*   By: pcervac <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 19:05:12 by pcervac           #+#    #+#             */
-/*   Updated: 2017/02/23 17:11:52 by pcervac          ###   ########.fr       */
+/*   Updated: 2017/02/24 17:27:04 by pcervac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
+
+#define INIT_VARS t_string space1, space2; t_room *room;
 
 t_bool	read_diez(t_input *inp, t_string line, const int *phase)
 {
@@ -33,10 +35,7 @@ t_bool	read_diez(t_input *inp, t_string line, const int *phase)
 
 t_bool	read_rooms(t_input *inp, t_string line, int *phase)
 {
-	t_string	space1;
-	t_string	space2;
-	t_room		*room;
-
+	INIT_VARS;
 	room = make_room();
 	if (NULL == (space1 = ft_strchr(line, ' ')))
 	{
@@ -74,7 +73,8 @@ t_bool	read_connections(t_input *inp, t_string line)
 		? error(NEROOM_ER) : DO_NONE;
 	-1 == (room2_ind = find_room_by_name_tab(inp->rooms_tab, delimiter))
 		? error(NEROOM_ER) : DO_NONE;
-	inp->ad_matr[room1_ind][room2_ind] != INF || inp->ad_matr[room2_ind][room1_ind] != INF
+	inp->ad_matr[room1_ind][room2_ind] != INF
+		|| inp->ad_matr[room2_ind][room1_ind] != INF
 		? error(ECONN_ER) : DO_NONE;
 	inp->ad_matr[room1_ind][room2_ind] = 1;
 	inp->ad_matr[room2_ind][room1_ind] = 1;

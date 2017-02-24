@@ -6,14 +6,12 @@
 /*   By: mmitriuc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:12:42 by mmitriuc          #+#    #+#             */
-/*   Updated: 2017/02/24 16:35:42 by pcervac          ###   ########.fr       */
+/*   Updated: 2017/02/24 18:45:25 by pcervac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-
-// we are super bravo!!
 t_path	*make_path(t_node *nodes, int end)
 {
 	t_path		*path;
@@ -50,6 +48,31 @@ t_node	*make_nodes(t_graf *graf, int start)
 	return (nodes);
 }
 
+int		get_path_aux(t_graf *graf, t_node *nodes, int start)
+{
+	int		cur;
+
+	nodes[start].stat = MARK;
+	cur = -1;
+	while (++cur != graf->nr_rooms)
+		if (graf->ad_matr[start][cur] != INF
+				&& nodes[cur].stat == UNMARK
+				&& nodes[cur].dist >
+				graf->ad_matr[start][cur] + nodes[start].dist)
+		{
+			nodes[cur].dist = graf->ad_matr[start][cur] + nodes[start].dist;
+			nodes[cur].prec = start;
+		}
+	start = -1;
+	while (cur-- != 0)
+	{
+		if (nodes[cur].stat == UNMARK
+				&& (-1 == start || (nodes[cur].dist < nodes[start].dist)))
+			start = cur;
+	}
+	return (start);
+}
+
 t_path	*get_path(t_graf *graf, int start, int end)
 {
 	int		cur;
@@ -61,27 +84,7 @@ t_path	*get_path(t_graf *graf, int start, int end)
 		if (graf->ad_matr[start][cur] == 1)
 			if (graf->rooms[cur]->status == UNFREE)
 				nodes[cur].stat = MARK;
-	while (true)
-	{
-		nodes[start].stat = MARK;
-		cur = -1;
-		while (++cur != graf->nr_rooms)
-			if (graf->ad_matr[start][cur] != INF
-					&& nodes[cur].stat == UNMARK
-					&& nodes[cur].dist > graf->ad_matr[start][cur] + nodes[start].dist)
-			{
-				nodes[cur].dist = graf->ad_matr[start][cur] + nodes[start].dist;
-				nodes[cur].prec = start;
-			}
-				start = -1;
-		while (cur-- != 0)
-		{
-			if (nodes[cur].stat == UNMARK
-					&& (-1 == start || (nodes[cur].dist < nodes[start].dist)))
-				start = cur;
-		}
-		if (-1 == start)
-			break ;
-	}
+	while (-1 != (start = get_path_aux(graf, nodes, start)))
+		DO_NONE;
 	return (make_path(nodes, end));
 }

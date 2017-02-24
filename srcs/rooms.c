@@ -6,7 +6,7 @@
 /*   By: pcervac <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/12 18:53:04 by pcervac           #+#    #+#             */
-/*   Updated: 2017/02/23 17:25:59 by pcervac          ###   ########.fr       */
+/*   Updated: 2017/02/24 18:36:15 by pcervac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int		find_room_by_status_tab(t_room **rooms, t_status status)
 		if (rooms[i++]->type == status)
 			return (i - 1);
 	return (-1);
-	
 }
 
 int		find_room_by_name_tab(t_room **rooms, const t_string name)
@@ -82,17 +81,4 @@ t_room	*find_room_by_status_list(t_list *rooms, int status)
 		tmp = tmp->next;
 	}
 	return (NULL == tmp ? NULL : (t_room*)tmp->content);
-}
-
-t_room	*make_room(void)
-{
-	t_room	*room;
-
-	room = (t_room*)ft_memalloc(sizeof(t_room));
-	NULL == room ? error(strerror(errno)) : DO_NONE;	
-	room->cor = (t_coord*)ft_memalloc(sizeof(t_coord));
-	NULL == room->cor ? error(strerror(errno)) : DO_NONE;
-	room->conns = NULL;
-	room->status = FREE;
-	return (room);
 }
