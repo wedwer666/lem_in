@@ -6,7 +6,7 @@
 /*   By: mmitriuc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:44:03 by mmitriuc          #+#    #+#             */
-/*   Updated: 2017/02/23 21:01:01 by pcervac          ###   ########.fr       */
+/*   Updated: 2017/02/24 16:32:28 by pcervac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,30 +41,25 @@ void	move_ant(t_lem *lems, t_graf *graf, const int nr_lems)
 	int		end;
 	int		moved;
 
-	ft_putendl("move_ant");
 	start = find_room_by_status_tab(graf->rooms, START);
 	end = find_room_by_status_tab(graf->rooms, END);
-	ft_printf("start %d end %d\n", start, end);
+	NULL == get_path(graf, start, end) ? error(NOCONN_ER) : DO_NONE;
 	while (true)
 	{
-		ft_putendl("while1");
 		moved = false;
 		i = -1;
 		while (++i != nr_lems)
 		{
-			ft_putendl("\twhile2");
 			lems[i].status = UNMOVED;
 			if (NULL != lems[i].path && lems[i].path->dist == lems[i].cam)
 			{
-				graf->rooms[lems[i].path->path[lems[i].cam]]->status = UNFREE;
+				graf->rooms[lems[i].path->path[lems[i].cam]]->status = FREE;
 				continue ;
 			}
 			if (NULL == lems[i].path)
 			{
-				ft_putendl("\tif1");
 				if (NULL != (lems[i].path = get_opt_path(graf, start, end)))
 				{
-					ft_putendl("\t\tif2");
 					moved = true;
 					lems[i].status = MOVED;
 					lems[i].cam++;
@@ -73,14 +68,13 @@ void	move_ant(t_lem *lems, t_graf *graf, const int nr_lems)
 			}
 			else if (FREE == graf->rooms[lems[i].path->path[lems[i].cam + 1]]->status)
 			{
-				ft_putendl("\telse if");
 				moved = true;
 				graf->rooms[lems[i].path->path[lems[i].cam]]->status = FREE;
 				lems[i].status = MOVED;
 				lems[i].cam++;
-				graf->rooms[lems[i].path->path[lems[i].cam]]->status = UNFREE;
+				if (lems[i].path->dist != lems[i].cam)
+					graf->rooms[lems[i].path->path[lems[i].cam]]->status = UNFREE;
 			}
-			ft_putendl("\tend while");
 		}
 		show_rooms(lems, graf, nr_lems);	
 		if (!moved)

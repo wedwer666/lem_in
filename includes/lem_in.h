@@ -6,7 +6,7 @@
 /*   By: mmitriuc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 14:07:19 by mmitriuc          #+#    #+#             */
-/*   Updated: 2017/02/23 20:05:34 by pcervac          ###   ########.fr       */
+/*   Updated: 2017/02/24 16:32:14 by pcervac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@
 # define ECOORD_ER	"Error: specifed coordinates already is used"
 # define STAT_ER	"Error: the room with this status already exist"
 # define ECONN_ER	"Error: the conn which is probed to create already exist"
+# define NOCONN_ER	"Error: can\'t connect start with end"
 
 # define NORMAL		0
 # define START		1

@@ -6,7 +6,7 @@
 /*   By: mmitriuc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:12:42 by mmitriuc          #+#    #+#             */
-/*   Updated: 2017/02/23 19:46:36 by pcervac          ###   ########.fr       */
+/*   Updated: 2017/02/24 16:35:42 by pcervac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 
 // we are super bravo!!
-t_path	*make_path(t_graf *graf, t_node *nodes, int end)
+t_path	*make_path(t_node *nodes, int end)
 {
 	t_path		*path;
 	int			i;
@@ -31,7 +31,6 @@ t_path	*make_path(t_graf *graf, t_node *nodes, int end)
 		end = nodes[end].prec;
 	}
 	ft_memdel((void**)&nodes);
-	//print_path(graf, path);
 	return (path);
 }
 
@@ -84,5 +83,5 @@ t_path	*get_path(t_graf *graf, int start, int end)
 		if (-1 == start)
 			break ;
 	}
-	return (make_path(graf, nodes, end));
+	return (make_path(nodes, end));
 }

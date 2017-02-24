@@ -6,7 +6,7 @@
 /*   By: pcervac <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 17:47:29 by pcervac           #+#    #+#             */
-/*   Updated: 2017/02/23 20:04:41 by pcervac          ###   ########.fr       */
+/*   Updated: 2017/02/24 16:34:58 by pcervac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,20 +54,16 @@ void	print_path(t_graf *graf, t_path *path)
 int		main(void)
 {
 	t_input		*inp;
-	t_path		*path;
 	t_graf		graf;
 
 	inp = make_input();
 	read_input(inp);
 	!inp->nr_lems || !inp->nr_rooms || !inp->nr_conns
 		? error(INPUT_ER) : DO_NONE;
-	print_input(inp);
+	//print_input(inp);
 	graf.rooms = inp->rooms_tab;
 	graf.ad_matr = inp->ad_matr;
 	graf.nr_rooms = inp->nr_rooms;
-	//path = get_path(&graf,
-	//		find_room_by_status_tab(graf.rooms, START),
-	//		find_room_by_status_tab(graf.rooms, END));
 	//print_path(&graf, path);
 	move_ant(make_lems(graf.rooms, inp->nr_lems), &graf, inp->nr_lems);
 	return (0);
